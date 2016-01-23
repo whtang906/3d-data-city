@@ -1,0 +1,52 @@
+{
+	"input": {
+		"type": "BlueprintInputCSV",
+		"options": {
+			"path": "http://projgw.cse.cuhk.edu.hk:2849/api/RSP/2010-03-17%2008:00:00.csv"
+		}
+	},
+	"output": {
+		"type": "BlueprintOutputBars",
+		"options": {
+			"workerURL": "js/lib/vizi-worker.js",
+
+			"radius": 50,
+			"scaleHeight": 25,
+
+			"materialType": "MeshPhongMaterial",
+			"materialOptions": {
+				"transparent": true,
+				"opacity": 1,
+				"color": "#009688",
+				"emissive": "#009688"
+			}
+		}
+	},
+	"triggers": [{
+		"triggerObject": "output",
+		"triggerName": "initialised",
+		"triggerArguments": [],
+		"actionObject": "input",
+		"actionName": "requestData",
+		"actionArguments": [],
+		"actionOutput": {}
+	}, {
+		"triggerObject": "input",
+		"triggerName": "dataReceived",
+		"triggerArguments": ["data"],
+		"actionObject": "output",
+		"actionName": "outputBars",
+		"actionArguments": ["data"],
+		"actionOutput": {
+			"data": {
+				"process": "map",
+				"itemsObject": "data",
+				"itemsProperties": "data",
+				"transformation": {
+					"coordinates": ["longitude", "latitude"],
+					"height": "income"
+				}
+			}
+		}
+	}]
+}
